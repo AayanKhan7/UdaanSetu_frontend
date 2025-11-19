@@ -1,0 +1,229 @@
+import React, { useState } from 'react';
+import { Card } from '../ui/card';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Badge } from '../ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../ui/dialog';
+import { mockSuccessProfiles, SuccessProfile } from '../../lib/mockData';
+import { ArrowLeft, Plus, Edit, Trash2, Target } from 'lucide-react';
+import { toast } from 'sonner@2.0.3';
+
+interface SuccessProfileManagementProps {
+  onBack: () => void;
+}
+
+export function SuccessProfileManagement({ onBack }: SuccessProfileManagementProps) {
+  const [profiles, setProfiles] = useState(mockSuccessProfiles);
+  const [showDialog, setShowDialog] = useState(false);
+  const [editingProfile, setEditingProfile] = useState<SuccessProfile | null>(null);
+
+  const handleCreateNew = () => {
+    setEditingProfile(null);
+    setShowDialog(true);
+  };
+
+  const handleEdit = (profile: SuccessProfile) => {
+    setEditingProfile(profile);
+    setShowDialog(true);
+  };
+
+  const handleDelete = (profileId: string) => {
+    setProfiles(profiles.filter(p => p.id !== profileId));
+    toast.success('Success profile deleted');
+  };
+
+  const handleSave = () => {
+    if (editingProfile) {
+      toast.success('Success profile updated');
+    } else {
+      toast.success('Success profile created');
+    }
+    setShowDialog(false);
+    setEditingProfile(null);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="sm" onClick={onBack}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          <div>
+            <h1>Success Profile Management</h1>
+            <p className="text-muted-foreground mt-1">
+              Define competency benchmarks for key leadership roles
+            </p>
+          </div>
+        </div>
+        <Button onClick={handleCreateNew} className="bg-blue-600 hover:bg-blue-700">
+          <Plus className="w-4 h-4 mr-2" />
+          Create New Profile
+        </Button>
+      </div>
+
+      {/* Info Card */}
+      <Card className="p-6 bg-blue-600/10 border-blue-600/30">
+        <div className="flex items-start gap-3">
+          <Target className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+          <div>
+            <h4 className="mb-2">What are Success Profiles?</h4>
+            <p className="text-sm text-muted-foreground">
+              Success Profiles define the competencies, skills, and experience required for key leadership roles.
+              The AI recommendation engine uses these profiles to identify gaps and suggest personalized development activities.
+            </p>
+          </div>
+        </div>
+      </Card>
+
+      {/* Success Profiles List */}
+      <div className="grid grid-cols-1 gap-6">
+        {profiles.map((profile) => (
+          <Card key={profile.id} className="p-6">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <h3 className="mb-1">{profile.roleTitle}</h3>
+                <p className="text-sm text-muted-foreground">
+                  Minimum Experience: {profile.minimumExperience} years
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={() => handleEdit(profile)}>
+                  <Edit className="w-4 h-4 mr-2" />
+                  Edit
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleDelete(profile.id)}
+                  className="text-red-500 hover:text-red-600"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Required Competencies */}
+            <div className="mb-4">
+              <h4 className="mb-3">Required Competencies</h4>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {Object.entries(profile.requiredCompetencies).map(([competency, level]) => (
+                  <div key={competency} className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                    <span className="text-sm">{competency}</span>
+                    <Badge className="bg-blue-600">{level}/10</Badge>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Functional Skills */}
+            <div className="mb-4">
+              <h4 className="mb-3">Functional Skills</h4>
+              <div className="flex flex-wrap gap-2">
+                {profile.functionalSkills.map((skill) => (
+                  <Badge key={skill} variant="outline">
+                    {skill}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            {/* Geographical Experience */}
+            <div>
+              <h4 className="mb-3">Geographical Experience</h4>
+              <div className="flex flex-wrap gap-2">
+                {profile.geographicalExperience.map((geo) => (
+                  <Badge key={geo} className="bg-green-600">
+                    {geo}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      {/* Create/Edit Dialog */}
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              {editingProfile ? 'Edit Success Profile' : 'Create New Success Profile'}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            {/* Basic Info */}
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>Role Title</Label>
+                <Input
+                  placeholder="e.g., General Manager, CFO, Director"
+                  defaultValue={editingProfile?.roleTitle}
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label>Minimum Experience (years)</Label>
+                <Input
+                  type="number"
+                  placeholder="15"
+                  defaultValue={editingProfile?.minimumExperience}
+                />
+              </div>
+            </div>
+
+            {/* Required Competencies */}
+            <div className="space-y-3">
+              <Label>Required Competencies (Scale: 1-10)</Label>
+              <div className="grid grid-cols-2 gap-4">
+                {['Strategic Thinking', 'Leadership', 'Financial Acumen', 'Operational Excellence', 'Stakeholder Management', 'Digital Transformation'].map((competency) => (
+                  <div key={competency} className="flex items-center gap-3">
+                    <Label className="flex-1 text-sm">{competency}</Label>
+                    <Input
+                      type="number"
+                      min="1"
+                      max="10"
+                      className="w-20"
+                      defaultValue={editingProfile?.requiredCompetencies[competency] || 5}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Functional Skills */}
+            <div className="space-y-2">
+              <Label>Functional Skills (comma separated)</Label>
+              <Input
+                placeholder="e.g., Operations Management, P&L Management, Team Leadership"
+                defaultValue={editingProfile?.functionalSkills.join(', ')}
+              />
+            </div>
+
+            {/* Geographical Experience */}
+            <div className="space-y-2">
+              <Label>Geographical Experience (comma separated)</Label>
+              <Input
+                placeholder="e.g., North, South, West, East"
+                defaultValue={editingProfile?.geographicalExperience.join(', ')}
+              />
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowDialog(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700">
+              {editingProfile ? 'Update Profile' : 'Create Profile'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
