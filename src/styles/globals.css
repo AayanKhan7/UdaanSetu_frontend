@@ -237,3 +237,15 @@ html {
 .animate-slide-in-right { animation: slide-in-right 1s ease-out; }
 .animate-blob { animation: blob 7s infinite; }
 .animation-delay-2000 { animation-delay: 2s; }
+
+
+
+@keyframes floatY {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.floatY {
+  animation: floatY 4s ease-in-out infinite;
+}
