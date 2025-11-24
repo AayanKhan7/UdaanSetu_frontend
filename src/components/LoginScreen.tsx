@@ -15,25 +15,25 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Mock login logic
+
+    // Mock login logic (demo)
     if (username === 'hr' || username === 'admin') {
-      onLogin({ id: '1', name: 'HR Admin', role: 'hr', email: 'hr@powergrid.com' });
+      onLogin({ id: '1', name: 'HR Admin', role: 'hr', email: 'hr@udaansetu.com' });
     } else if (username === 'manager' || username === 'rajesh') {
-      onLogin({ 
-        id: '2', 
-        name: 'Rajesh Kumar', 
-        role: 'manager', 
-        email: 'rajesh@powergrid.com',
+      onLogin({
+        id: '2',
+        name: 'Rajesh Kumar',
+        role: 'manager',
+        email: 'rajesh@udaansetu.com',
         department: 'Operations',
         title: 'Department Head'
       });
     } else {
-      onLogin({ 
-        id: '3', 
-        name: 'Anya Sharma', 
-        role: 'employee', 
-        email: 'anya@powergrid.com',
+      onLogin({
+        id: '3',
+        name: 'Anya Sharma',
+        role: 'employee',
+        email: 'anya@udaansetu.com',
         department: 'Operations',
         title: 'Senior Engineer'
       });
@@ -42,22 +42,22 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
 
   const handleQuickLogin = (role: UserRole) => {
     if (role === 'hr') {
-      onLogin({ id: '1', name: 'HR Admin', role: 'hr', email: 'hr@powergrid.com' });
+      onLogin({ id: '1', name: 'HR Admin', role: 'hr', email: 'hr@udaansetu.com' });
     } else if (role === 'manager') {
-      onLogin({ 
-        id: '2', 
-        name: 'Rajesh Kumar', 
-        role: 'manager', 
-        email: 'rajesh@powergrid.com',
+      onLogin({
+        id: '2',
+        name: 'Rajesh Kumar',
+        role: 'manager',
+        email: 'rajesh@udaansetu.com',
         department: 'Operations',
         title: 'Department Head'
       });
     } else {
-      onLogin({ 
-        id: '3', 
-        name: 'Anya Sharma', 
-        role: 'employee', 
-        email: 'anya@powergrid.com',
+      onLogin({
+        id: '3',
+        name: 'Anya Sharma',
+        role: 'employee',
+        email: 'anya@udaansetu.com',
         department: 'Operations',
         title: 'Senior Engineer'
       });
@@ -69,8 +69,8 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
       <Card className="w-full max-w-md p-8 bg-card/95 backdrop-blur">
         {/* Logo/Branding */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 mb-4">
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 mb-4" role="img" aria-label="UdaanSetu logomark">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
@@ -89,6 +89,7 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="bg-input"
+              required
             />
           </div>
 
@@ -101,6 +102,7 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="bg-input"
+              required
             />
           </div>
 

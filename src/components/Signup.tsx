@@ -17,21 +17,30 @@ const Signup: React.FC<SignupProps> = ({ onNavigate }) => {
     role: ''
   });
 
+  const [showPasswordWarning, setShowPasswordWarning] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Basic validation
     if (formData.password !== formData.confirmPassword) {
       alert('Passwords do not match!');
       return;
     }
-    
+
+    if (formData.password.length < 8) {
+      setShowPasswordWarning(true);
+      alert('Password should be at least 8 characters long.');
+      return;
+    }
+
     if (!formData.role) {
       alert('Please select a role');
       return;
     }
 
     // Navigate to login after successful signup
+    // (In a real app: call API -> show success toast -> navigate)
     alert('Account created successfully! Please login.');
     onNavigate('login');
   };
@@ -42,14 +51,14 @@ const Signup: React.FC<SignupProps> = ({ onNavigate }) => {
       <div className="hidden md:flex flex-col px-12 py-20 bg-gradient-to-br from-blue-600 to-blue-800 relative overflow-hidden justify-between">
         {/* Decorative Elements */}
         <div className="absolute top-0 left-0 w-full h-full opacity-20">
-            <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-black/30 to-transparent"></div>
-            <div className="absolute top-20 right-20 w-48 h-48 bg-white rounded-full filter blur-3xl opacity-30"></div>
+          <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-black/30 to-transparent"></div>
+          <div className="absolute top-20 right-20 w-48 h-48 bg-white rounded-full filter blur-3xl opacity-30"></div>
         </div>
 
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-12 cursor-pointer group" onClick={() => onNavigate('landing')}>
             <div className="w-12 h-12 bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center rounded-lg shadow-lg group-hover:rotate-3 transition-transform">
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
@@ -69,30 +78,31 @@ const Signup: React.FC<SignupProps> = ({ onNavigate }) => {
         
         {/* Glass card example */}
         <div className="relative z-10 bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl max-w-sm">
-            <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 rounded-full bg-green-400 flex items-center justify-center text-green-900 text-xs">✓</div>
-                <span className="text-white">Profile Verified</span>
-            </div>
-            <p className="text-white/80 text-sm">"UdaanSetu helped me land my dream job at a top tech firm in just 3 weeks."</p>
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-8 h-8 rounded-full bg-green-400 flex items-center justify-center text-green-900 text-xs">✓</div>
+            <span className="text-white">Profile Verified</span>
+          </div>
+          <p className="text-white/80 text-sm">"UdaanSetu helped me land my dream job at a top tech firm in just 3 weeks."</p>
         </div>
       </div>
 
       {/* Right section - Form */}
-      <div className="flex flex-col justify-center px-8 md:px-20 py-10 bg-card relative h-screen overflow-y-auto">
+      <div className="flex flex-col justify-center px-8 md:px-20 py-10 bg-card relative min-h-screen">
         <button 
-            onClick={() => onNavigate('landing')}
-            className="absolute top-8 right-8 p-2 rounded-full bg-accent text-muted-foreground hover:text-foreground hover:bg-muted transition z-20"
+          onClick={() => onNavigate('landing')}
+          className="absolute top-8 right-8 p-2 rounded-full bg-accent text-muted-foreground hover:text-foreground hover:bg-muted transition z-20"
+          aria-label="Close signup"
         >
-            <X size={20} />
+          <X size={20} />
         </button>
         
-        <div className="max-w-md mx-auto w-full my-auto">
-            <div className="mb-8">
-                <h2 className="text-foreground mb-2">Get Started</h2>
-                <p className="text-muted-foreground">It only takes a minute to set up your profile.</p>
-            </div>
+        <div className="max-w-md mx-auto w-full">
+          <div className="mb-8">
+            <h2 className="text-foreground mb-2">Get Started</h2>
+            <p className="text-muted-foreground">It only takes a minute to set up your profile.</p>
+          </div>
 
-            <form className="space-y-4" onSubmit={handleSubmit}>
+          <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <Label htmlFor="username">Username</Label>
                 <Input
@@ -127,7 +137,10 @@ const Signup: React.FC<SignupProps> = ({ onNavigate }) => {
                     type="password"
                     placeholder="••••••••"
                     value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                    onChange={(e) => {
+                      setFormData({...formData, password: e.target.value});
+                      setShowPasswordWarning(e.target.value.length < 8);
+                    }}
                     required
                     className="bg-input"
                   />
@@ -146,6 +159,10 @@ const Signup: React.FC<SignupProps> = ({ onNavigate }) => {
                 </div>
               </div>
 
+              {showPasswordWarning && (
+                <p className="text-xs text-yellow-500">Password looks weak (min 8 characters)</p>
+              )}
+
               <div>
                 <Label htmlFor="role">I am a...</Label>
                 <select
@@ -162,25 +179,27 @@ const Signup: React.FC<SignupProps> = ({ onNavigate }) => {
                 </select>
               </div>
 
-              <Button 
-                type="submit"
-                className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white mt-2"
-              >
-                Create Account
-              </Button>
-            </form>
+            <Button 
+              type="submit"
+              className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white mt-2"
+            >
+              Create Account
+            </Button>
+          </form>
 
-            <div className="mt-6 text-center">
-              <p className="text-muted-foreground text-sm">
-                Already a member?{" "}
-                <span
-                  onClick={() => onNavigate('login')}
-                  className="text-blue-500 hover:text-blue-600 cursor-pointer transition"
-                >
-                  Login here
-                </span>
-              </p>
-            </div>
+          <div className="mt-6 text-center">
+            <p className="text-muted-foreground text-sm">
+              Already a member?{" "}
+              <span
+                onClick={() => onNavigate('login')}
+                className="text-blue-500 hover:text-blue-600 cursor-pointer transition"
+                role="link"
+                tabIndex={0}
+              >
+                Login here
+              </span>
+            </p>
+          </div>
         </div>
       </div>
     </div>
