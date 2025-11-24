@@ -1,6 +1,3 @@
-
-
-
 import React, { useState } from "react";
 import { X } from "lucide-react";
 import { Input } from "./ui/input";
@@ -43,7 +40,6 @@ const Signup: React.FC<SignupProps> = ({ onNavigate }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0f172a] px-4 relative">
       <div className="bg-[#111827] rounded-2xl shadow-xl w-full max-w-md p-8 relative">
-
         {/* CLOSE BUTTON */}
         <button
           onClick={() => onNavigate("landing")}
@@ -113,7 +109,10 @@ const Signup: React.FC<SignupProps> = ({ onNavigate }) => {
             </div>
 
             <div>
-              <Label htmlFor="confirmPassword" className="text-gray-300 mb-3 block">
+              <Label
+                htmlFor="confirmPassword"
+                className="text-gray-300 mb-3 block"
+              >
                 Confirm
               </Label>
               <Input

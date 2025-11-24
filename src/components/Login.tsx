@@ -35,9 +35,8 @@ const Login: React.FC<LoginProps> = ({ onNavigate, onLogin }) => {
         name: "HR Admin",
         role: "hr",
         email: "hr@udaansetu.com",
-      }
-    }
-    else {
+      };
+    } else {
       user = {
         id: "3",
         name: "Anya Sharma",
@@ -61,7 +60,7 @@ const Login: React.FC<LoginProps> = ({ onNavigate, onLogin }) => {
         role: "hr",
         email: "hr@udaansetu.com",
       };
-    }  else {
+    } else {
       user = {
         id: "3",
         name: "Anya Sharma",
@@ -137,44 +136,39 @@ const Login: React.FC<LoginProps> = ({ onNavigate, onLogin }) => {
           >
             Sign In
           </Button>
-
         </form>
 
-       
+        {/* Divider */}
+        <div className="border-t border-gray-700 mt-8 pt-6 w-full">
+          <p className="text-center text-gray-400 text-sm mb-4">
+            Quick Demo Access
+          </p>
 
-{/* Divider */}
-<div className="border-t border-gray-700 mt-8 pt-6 w-full">
-  <p className="text-center text-gray-400 text-sm mb-4">
-    Quick Demo Access
-  </p>
+          <div className="flex w-full gap-4">
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-xs py-3 flex-1"
+              onClick={() => handleQuickLogin("hr")}
+            >
+              HR Admin
+            </Button>
 
-  <div className="flex w-full gap-4">
-    <Button
-      variant="outline"
-      size="sm"
-      className="text-xs py-3 flex-1"
-      onClick={() => handleQuickLogin("hr")}
-    >
-      HR Admin
-    </Button>
-
-    <Button
-      variant="outline"
-      size="sm"
-      className="text-xs py-3 flex-1"
-      onClick={() => handleQuickLogin("employee")}
-    >
-      Employee
-    </Button>
-  </div>
-</div>
-          <div className="flex justify-center -mt-3 mt-4">
-            <span className="text-xs text-blue-400 hover:text-blue-500 cursor-pointer">
-              Forgot Password?
-            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-xs py-3 flex-1"
+              onClick={() => handleQuickLogin("employee")}
+            >
+              Employee
+            </Button>
           </div>
-
-
+        </div>
+        <div className="flex justify-center -mt-3 mt-4">
+          <span className="text-xs text-blue-400 hover:text-blue-500 cursor-pointer">
+            Forgot Password?
+          </span>
+        </div>
 
         {/* Create Account */}
         <div className="mt-2 text-center">

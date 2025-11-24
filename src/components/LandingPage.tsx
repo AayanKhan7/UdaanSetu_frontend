@@ -107,7 +107,9 @@ const TestimonialCard: React.FC<{ name: string; text: string }> = ({
         <Star key={i} size={18} className="fill-yellow-400 text-yellow-400" />
       ))}
     </div>
-    <blockquote className="italic text-foreground flex-grow">"{text}"</blockquote>
+    <blockquote className="italic text-foreground flex-grow">
+      "{text}"
+    </blockquote>
     <p className="font-semibold mt-4">~ {name}</p>
   </div>
 );
@@ -198,32 +200,23 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               aria-label="Go to home"
             >
               <div
-                className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 text-white flex items-center justify-center rounded-lg shadow-lg"
+                className="w-20 h-20 sm:w-10 sm:h-10 rounded-lg shadow-lg overflow-hidden mt-2"
                 role="img"
                 aria-label="UdaanSetu logo"
               >
-                <svg
-                  className="w-5 h-5 sm:w-6 sm:h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
+                <img
+                  src="src/images/logo1.png"
+                  alt="UdaanSetu Logo"
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <span className="text-xl sm:text-2xl font-bold group-hover:text-blue-500">
-                UdaanSetu
-              </span>
             </div>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center space-x-8" role="navigation">
+            <div
+              className="hidden md:flex items-center space-x-8"
+              role="navigation"
+            >
               <button
                 type="button"
                 onClick={() => onNavigate("landing")}
@@ -511,28 +504,16 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       <footer className="bg-card border-t border-border pt-6 pb-6 sm:pt-16 sm:pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8 mb-6 sm:mb-8">
-            <div className="flex items-center gap-3">
-              <div
-                className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 text-white flex items-center justify-center rounded-lg"
-                role="img"
-                aria-label="UdaanSetu logo small"
-              >
-                <svg
-                  className="w-5 h-5 sm:w-6 sm:h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
-              </div>
-              <span className="text-lg sm:text-xl font-bold">UdaanSetu</span>
+            <div
+              className="w-10 h-10 sm:w-10 sm:h-10 rounded-lg shadow-lg overflow-hidden mb-1"
+              role="img"
+              aria-label="UdaanSetu logo"
+            >
+              <img
+                src="src/images/logo1.png"
+                alt="UdaanSetu Logo"
+                className="w-full h-full object-cover"
+              />
             </div>
 
             <div className="flex gap-3 sm:gap-4">
@@ -545,7 +526,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           </div>
 
           <div className="border-t border-border pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center text-xs sm:text-sm text-muted-foreground">
-            <p className="text-center md:text-left">© 2025 UdaanSetu. All rights reserved.</p>
+            <p className="text-center md:text-left">
+              © 2025 UdaanSetu. All rights reserved.
+            </p>
             <div className="flex gap-4 sm:gap-8 mt-4 md:mt-0">
               <a href="#" className="hover:text-blue-500 transition">
                 Privacy Policy
